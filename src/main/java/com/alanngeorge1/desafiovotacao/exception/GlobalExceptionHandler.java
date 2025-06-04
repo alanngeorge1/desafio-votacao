@@ -13,27 +13,34 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(PautaNotFoundException.class)
-    public ResponseEntity<Object> handlePautaFoundException(PautaNotFoundException ex){
+    public ResponseEntity<Object> handlePautaFoundException(PautaNotFoundException ex) {
         Map<String, Object> body = new HashMap<>();
-        body.put("error", "Pauta não encontrada");
+        body.put("error", "Pauta não Encontrada");
         body.put("message", ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
 
+    @ExceptionHandler(RuntimeBusinessException.class)
+    public ResponseEntity<Object> handleBusinessException(RuntimeBusinessException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("error", "Erro de Negócio");
+        body.put("message", ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException ex){
+    public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException ex) {
         Map<String, Object> body = new HashMap<>();
-        body.put("error", "Erro Validação");
+        body.put("error", "Erro de Validação");
         body.put("message", ex.getBindingResult().getFieldError().getDefaultMessage());
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleGenericException(Exception ex){
-    Map<String, Object> body = new HashMap<>();
-    body.put("error", "Erro interno");
-    body.put("message", ex.getMessage());
-    return new ResponseEntity<>(body,HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Object> handleGenericException(Exception ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("error", "Erro Interno");
+        body.put("message", ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

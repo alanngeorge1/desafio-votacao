@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class VotoDto {
+public class VotoDTO {
 
     @NotNull(message = "pauta_id é Obrigatório")
     private Long pautaId;

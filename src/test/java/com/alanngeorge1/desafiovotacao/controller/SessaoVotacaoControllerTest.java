@@ -75,6 +75,6 @@ public class SessaoVotacaoControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(sessaoDTO)))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.error").value("Pauta não encontrada"));
+                .andExpect(jsonPath("$.error").value("Pauta não Encontrada"));
     }
 }

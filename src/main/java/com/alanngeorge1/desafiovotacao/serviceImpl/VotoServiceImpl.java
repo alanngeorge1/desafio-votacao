@@ -1,6 +1,6 @@
 package com.alanngeorge1.desafiovotacao.serviceImpl;
 
-import com.alanngeorge1.desafiovotacao.dto.VotoDto;
+import com.alanngeorge1.desafiovotacao.dto.VotoDTO;
 import com.alanngeorge1.desafiovotacao.entity.Pauta;
 import com.alanngeorge1.desafiovotacao.entity.Voto;
 import com.alanngeorge1.desafiovotacao.exception.PautaNotFoundException;
@@ -21,7 +21,7 @@ public class VotoServiceImpl implements VotoService {
     PautaRepository pautaRepository;
 
     @Override
-    public Voto registrarVoto(VotoDto votoDto) {
+    public Voto registrarVoto(VotoDTO votoDto) {
         Pauta pauta = pautaRepository.findById(votoDto.getPautaId())
                 .orElseThrow(() -> new PautaNotFoundException("Pauta com id " + votoDto.getPautaId() + " não encontrada." ));
 

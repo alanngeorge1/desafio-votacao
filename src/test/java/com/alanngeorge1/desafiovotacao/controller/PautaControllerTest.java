@@ -50,7 +50,7 @@ public class PautaControllerTest {
     public void testBuscarPuataInexistente() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/pautas/999999", 1))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.error").value("Pauta não encontrada"));
+                .andExpect(jsonPath("$.error").value("Pauta não Encontrada"));
 
     }
 
@@ -64,6 +64,6 @@ public class PautaControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(pautaDTO)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value("Erro Validação"));
+                .andExpect(jsonPath("$.error").value("Erro de Validação"));
     }
 }

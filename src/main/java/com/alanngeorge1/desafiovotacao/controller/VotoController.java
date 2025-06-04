@@ -1,6 +1,6 @@
 package com.alanngeorge1.desafiovotacao.controller;
 
-import com.alanngeorge1.desafiovotacao.dto.VotoDto;
+import com.alanngeorge1.desafiovotacao.dto.VotoDTO;
 import com.alanngeorge1.desafiovotacao.entity.Voto;
 import com.alanngeorge1.desafiovotacao.service.VotoService;
 import jakarta.validation.Valid;
@@ -18,7 +18,7 @@ public class VotoController {
     private VotoService votoService;
 
     @PostMapping
-    public Voto registrarVoto(@Valid @RequestBody VotoDto votoDto) {
+    public Voto registrarVoto(@Valid @RequestBody VotoDTO votoDto) {
         return votoService.registrarVoto(votoDto);
     }
 }
