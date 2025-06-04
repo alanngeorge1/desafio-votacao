@@ -10,4 +10,6 @@ public interface PautaService {
     Pauta criarPauta(PautaDTO pautaDTO);
 
     List<PautaDTO> listarPautas();
+
+    Pauta buscarPorId(Long id);
 }

@@ -2,6 +2,7 @@ package com.alanngeorge1.desafiovotacao.serviceImpl;
 
 import com.alanngeorge1.desafiovotacao.dto.PautaDTO;
 import com.alanngeorge1.desafiovotacao.entity.Pauta;
+import com.alanngeorge1.desafiovotacao.exception.PautaNotFoundException;
 import com.alanngeorge1.desafiovotacao.repository.PautaRepository;
 import com.alanngeorge1.desafiovotacao.service.PautaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,12 @@ public class PautaServiceImpl implements PautaService {
                     return dto;
                 })
                 .toList();
+    }
+
+    @Override
+    public Pauta buscarPorId (Long id){
+        return pautaRepository.findById(id)
+                .orElseThrow(() -> new PautaNotFoundException("Pauta com id " + id + " não encontrada"));
     }
 
 }
