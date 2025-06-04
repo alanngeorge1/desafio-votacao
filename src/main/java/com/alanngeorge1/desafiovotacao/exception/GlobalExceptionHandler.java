@@ -43,4 +43,12 @@ public class GlobalExceptionHandler {
         body.put("message", ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(CpfInvalidoException.class)
+    public ResponseEntity<Object> handleCpfInvalidoException(CpfInvalidoException ex) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("error", "CPF inválido");
+        body.put("message", ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+    }
 }
