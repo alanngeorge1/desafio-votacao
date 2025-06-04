@@ -1,6 +1,7 @@
 package com.alanngeorge1.desafiovotacao.controller;
 
 import com.alanngeorge1.desafiovotacao.dto.PautaDTO;
+import com.alanngeorge1.desafiovotacao.dto.ResultadoVotacaoDTO;
 import com.alanngeorge1.desafiovotacao.entity.Pauta;
 import com.alanngeorge1.desafiovotacao.service.PautaService;
 import jakarta.validation.Valid;
@@ -35,8 +36,11 @@ public class PautaController {
         PautaDTO pautaDTO = new PautaDTO();
         pautaDTO.setTitulo(pauta.getTitulo());
         pautaDTO.setDescricao(pauta.getDescricao());
-
         return pautaDTO;
+    }
 
+    @GetMapping("/{id}/resultado")
+    public ResultadoVotacaoDTO getResultadoVotacao(@PathVariable Long id) {
+        return pautaService.getResultadoVotacao(id);
     }
 }

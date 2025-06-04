@@ -1,6 +1,7 @@
 package com.alanngeorge1.desafiovotacao.service;
 
 import com.alanngeorge1.desafiovotacao.dto.PautaDTO;
+import com.alanngeorge1.desafiovotacao.dto.ResultadoVotacaoDTO;
 import com.alanngeorge1.desafiovotacao.entity.Pauta;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface PautaService {
     List<PautaDTO> listarPautas();
 
     Pauta buscarPorId(Long id);
+
+    ResultadoVotacaoDTO getResultadoVotacao(Long pautaId);
 }
