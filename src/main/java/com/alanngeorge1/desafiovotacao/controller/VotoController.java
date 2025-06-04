@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/votos")
+@RequestMapping("/api/v1/votos")
 public class VotoController {
 
     @Autowired

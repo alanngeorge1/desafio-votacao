@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/cpf")
+@RequestMapping("/api/v1/cpf")
 public class CpfValidationController {
 
     @Autowired
