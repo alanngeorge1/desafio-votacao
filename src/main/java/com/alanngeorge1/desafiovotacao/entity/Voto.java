@@ -1,5 +1,6 @@
 package com.alanngeorge1.desafiovotacao.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,7 @@ public class Voto {
 
     @ManyToOne
     @JoinColumn(name = "pauta_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Pauta pauta;
 
     @Column(nullable = false)
