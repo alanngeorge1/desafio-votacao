@@ -1,0 +1,157 @@
+{
+  "info": {
+    "_postman_id": "c9ec9f50-2048-11ee-987e-5bcd1292030a",
+    "name": "desafio-votacao",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Cadastrar Pauta",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"titulo\": \"Pauta de Teste\",\n    \"descricao\": \"Descricao da pauta de teste\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/pautas",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "pautas"]
+        }
+      }
+    },
+    {
+      "name": "Abrir Sessão de Votação",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"pautaId\": 1,\n    \"duracaoEmMinutos\": 5\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/sessoes",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "sessoes"]
+        }
+      }
+    },
+    {
+      "name": "Registrar Voto",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"pautaId\": 1,\n    \"associadoId\": \"12345678900\",\n    \"voto\": \"SIM\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/votos",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "votos"]
+        }
+      }
+    },
+    {
+      "name": "Consultar Resultado da Votação",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/pautas/1/resultado",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "pautas", "1", "resultado"]
+        }
+      }
+    },
+    {
+      "name": "Validação de CPF (GET sem máscara)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/cpf/12345678901",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "cpf", "12345678901"]
+        }
+      }
+    },
+    {
+      "name": "Validação de CPF (GET com máscara)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/cpf/123.456.789-01",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "cpf", "123.456.789-01"]
+        }
+      }
+    },
+    {
+      "name": "Validação de CPF (POST com body)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"cpf\": \"123.456.789-01\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/v1/cpf/validate",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "cpf", "validate"]
+        }
+      }
+    },
+    {
+      "name": "Listar Pautas",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/v1/pautas",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "v1", "pautas"]
+        }
+      }
+    }
+  ]
+}

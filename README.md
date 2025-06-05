@@ -1,117 +1,157 @@
-# Votação
+API REST desenvolvida para gerenciar pautas, sessões de votação e votos de associados em assembleias de cooperativas.
 
-## Objetivo
+Este projeto atende ao desafio proposto, com os seguintes requisitos:
 
-No cooperativismo, cada associado possui um voto e as decisões são tomadas em assembleias, por votação. Imagine que você deve criar uma solução para dispositivos móveis para gerenciar e participar dessas sessões de votação.
-Essa solução deve ser executada na nuvem e promover as seguintes funcionalidades através de uma API REST:
+- Cadastrar pautas
+- Abrir sessões de votação com tempo configurável
+- Registrar votos únicos por associado/pauta
+- Retornar o resultado da votação
+- Persistência com banco de dados
+- Documentação com Swagger
+- Testes automatizados e carga de performance (1000 votos testados)
 
-- Cadastrar uma nova pauta
-- Abrir uma sessão de votação em uma pauta (a sessão de votação deve ficar aberta por
-  um tempo determinado na chamada de abertura ou 1 minuto por default)
-- Receber votos dos associados em pautas (os votos são apenas 'Sim'/'Não'. Cada associado
-  é identificado por um id único e pode votar apenas uma vez por pauta)
-- Contabilizar os votos e dar o resultado da votação na pauta
 
-Para fins de exercício, a segurança das interfaces pode ser abstraída e qualquer chamada para as interfaces pode ser considerada como autorizada. A solução deve ser construída em java, usando Spring-boot, mas os frameworks e bibliotecas são de livre escolha (desde que não infrinja direitos de uso).
+Tecnologias utilizadas:
 
-É importante que as pautas e os votos sejam persistidos e que não sejam perdidos com o restart da aplicação.
+Tecnologia						Uso
+Java 21	                        Linguagem principal
+Spring Boot 3.2.5				Framework principal
+Spring Web	                    API REST (controllers/endpoints)
+Spring Data JPA	                Acesso a banco de dados relacional
+H2 Database	                    Banco de dados em memória (testes e local)
+Lombok	                        Redução de boilerplate (getters/setters/construtores/logs)
+Swagger/Springdoc OpenAPI	    Documentação interativa da API
+JUnit 5	                        Testes automatizados
+Mockito	                        Mocks e testes unitários
+AssertJ	                        Fluent Assertions
+Logback + @Slf4j	            Logging centralizado e padronizado
 
-O foco dessa avaliação é a comunicação entre o backend e o aplicativo mobile. Essa comunicação é feita através de mensagens no formato JSON, onde essas mensagens serão interpretadas pelo cliente para montar as telas onde o usuário vai interagir com o sistema. A aplicação cliente não faz parte da avaliação, apenas os componentes do servidor. O formato padrão dessas mensagens será detalhado no anexo 1.
 
-## Como proceder
+Arquitetura:
+API RESTful versionada: /api/v1/
 
-Por favor, **CLONE** o repositório e implemente sua solução, ao final, notifique a conclusão e envie o link do seu repositório clonado no GitHub, para que possamos analisar o código implementado.
+Separação em camadas:
+Controller -> entrada REST
+Service -> regras de negócio
+Repository -> persistência
+DTOs -> comunicação entre camadas e com clientes
+ExceptionHandler -> tratamento global de erros
 
-Lembre de deixar todas as orientações necessárias para executar o seu código.
 
-### Tarefas bônus
+A documentação interativa da API está disponível via Swagger:
+http://localhost:8080/swagger-ui/index.html
 
-- Tarefa Bônus 1 - Integração com sistemas externos
-  - Criar uma Facade/Client Fake que retorna aleátoriamente se um CPF recebido é válido ou não.
-  - Caso o CPF seja inválido, a API retornará o HTTP Status 404 (Not found). Você pode usar geradores de CPF para gerar CPFs válidos
-  - Caso o CPF seja válido, a API retornará se o usuário pode (ABLE_TO_VOTE) ou não pode (UNABLE_TO_VOTE) executar a operação. Essa operação retorna resultados aleatórios, portanto um mesmo CPF pode funcionar em um teste e não funcionar no outro.
 
-```
-// CPF Ok para votar
-{
-    "status": "ABLE_TO_VOTE
-}
-// CPF Nao Ok para votar - retornar 404 no client tb
-{
-    "status": "UNABLE_TO_VOTE
-}
-```
+Endpoints principais:
+Recurso	                  		Método	                        Caminho
+Cadastrar pauta	          		POST	          			    /api/v1/pautas
+Listar pautas	          		GET	    		  				/api/v1/pautas
+Abrir sessão de votação     	POST	 						/api/v1/sessoes
+Registrar voto					POST	        				/api/v1/votos
+Consultar resultado da votação	GET	           					/api/v1/pautas/{id}/resultado
 
-Exemplos de retorno do serviço
+Fluxo swagger:
+Fluxo					Endpoint						Método					Body
+Criar Pauta				/api/v1/pautas					POST					JSON
+Abrir Sessão			/api/v1/sessoes					POST					JSON
+Registrar Voto			/api/v1/votos					POST					JSON
+Consultar Resultado		/api/v1/pautas/{id}/resultado						    GET	—
 
-### Tarefa Bônus 2 - Performance
 
-- Imagine que sua aplicação possa ser usada em cenários que existam centenas de
-  milhares de votos. Ela deve se comportar de maneira performática nesses
-  cenários
-- Testes de performance são uma boa maneira de garantir e observar como sua
-  aplicação se comporta
+Testes automatizados:
+Controllers
+Services
+Integração completa (MockMvc)
+Simulação de 1000 votos realizada com sucesso para validação de performance e concorrência.
 
-### Tarefa Bônus 3 - Versionamento da API
 
-○ Como você versionaria a API da sua aplicação? Que estratégia usar?
+Tarefa Bônus 1 - Integração com sistema externo (validação de CPF)
+Implementada Facade Fake que simula validação de CPF:
+Responde randomicamente:
+"ABLE_TO_VOTE"
+"UNABLE_TO_VOTE"
+ou 404 para CPFs inválidos
 
-## O que será analisado
 
-- Simplicidade no design da solução (evitar over engineering)
-- Organização do código
-- Arquitetura do projeto
-- Boas práticas de programação (manutenibilidade, legibilidade etc)
-- Possíveis bugs
-- Tratamento de erros e exceções
-- Explicação breve do porquê das escolhas tomadas durante o desenvolvimento da solução
-- Uso de testes automatizados e ferramentas de qualidade
-- Limpeza do código
-- Documentação do código e da API
-- Logs da aplicação
-- Mensagens e organização dos commits
+Tarefa Bônus 2 - Performance:
+Teste de carga executado simulando 1000 votos com sucesso.
+Observações: Nenhum problema de concorrência identificado a API manteve estabilidade com múltiplos registros.
 
-## Dicas
 
-- Teste bem sua solução, evite bugs
-- Deixe o domínio das URLs de callback passiveis de alteração via configuração, para facilitar
-  o teste tanto no emulador, quanto em dispositivos fisicos.
-  Observações importantes
-- Não inicie o teste sem sanar todas as dúvidas
-- Iremos executar a aplicação para testá-la, cuide com qualquer dependência externa e
-  deixe claro caso haja instruções especiais para execução do mesmo
-  Classificação da informação: Uso Interno
+Tarefa Bônus 3 - Versionamento da API
+API versionada em /api/v1/
+Estratégia: versionamento por URI (mais transparente e compatível com clientes mobile).
 
-## Anexo 1
 
-### Introdução
+Como rodar o projeto localmente
 
-A seguir serão detalhados os tipos de tela que o cliente mobile suporta, assim como os tipos de campos disponíveis para a interação do usuário.
+Pré-requisitos
+Java 21+
 
-### Tipo de tela – FORMULARIO
+Maven 3.9+
 
-A tela do tipo FORMULARIO exibe uma coleção de campos (itens) e possui um ou dois botões de ação na parte inferior.
+Executando
+bash
+Copiar
+Editar
+git clone https://github.com/alanngeorge1/desafio-votacao.git
+cd desafio-votacao
+mvn clean install
+mvn spring-boot:run
+A aplicação estará disponível em: http://localhost:8080
 
-O aplicativo envia uma requisição POST para a url informada e com o body definido pelo objeto dentro de cada botão quando o mesmo é acionado. Nos casos onde temos campos de entrada
-de dados na tela, os valores informados pelo usuário são adicionados ao corpo da requisição. Abaixo o exemplo da requisição que o aplicativo vai fazer quando o botão “Ação 1” for acionado:
 
-```
-POST http://seudominio.com/ACAO1
-{
-    “campo1”: “valor1”,
-    “campo2”: 123,
-    “idCampoTexto”: “Texto”,
-    “idCampoNumerico: 999
-    “idCampoData”: “01/01/2000”
-}
-```
+Como testar a API
+Via Swagger
+Acesse: http://localhost:8080/swagger-ui/index.html
 
-Obs: o formato da url acima é meramente ilustrativo e não define qualquer padrão de formato.
+Via Postman
+Coleção Postman disponível em:
+src/main/postman/desafio-votacao.postman_collection.json
+Basta importar no Postman e executar os testes.
 
-### Tipo de tela – SELECAO
 
-A tela do tipo SELECAO exibe uma lista de opções para que o usuário.
+Banco de Dados
+Tipo: Banco de dados em memória — H2 Database
+Console Web: http://localhost:8080/h2-console
+JDBC URL: jdbc:h2:file:./data/testdb
+Usuário: sa
+Senha: (em branco)
 
-O aplicativo envia uma requisição POST para a url informada e com o body definido pelo objeto dentro de cada item da lista de seleção, quando o mesmo é acionado, semelhando ao funcionamento dos botões da tela FORMULARIO.
+Observações sobre Reset do Banco de Dados
+Caso seja necessário resetar totalmente o banco de dados (excluir todas as tabelas e recriar):
 
-# desafio-votacao
+No arquivo: src/main/resources/application.properties
+Localize a linha: spring.jpa.hibernate.ddl-auto=update
+Altere temporariamente para: spring.jpa.hibernate.ddl-auto=create
+Inicie a aplicação — o banco será recriado do zero.
+Em seguida, retorne para update: spring.jpa.hibernate.ddl-auto=update
+
+Observação importante: Modo update -> garante que os dados serão persistidos no arquivo ./data/testdb entre execuções da aplicação.
+Os arquivos do H2 (testdb.mv.db e testdb.trace.db) são responsáveis por armazenar o conteúdo persistido.
+
+Logs:
+Log centralizado com @Slf4j
+Criação de pauta
+Abertura de sessão
+Registro de voto
+Cálculo de resultado
+
+
+Commits com padrão:
+refactor(tests): padroniza endpoints e correção testes de integração
+feat: implementação de validação de CPF
+
+
+Resumo das escolhas técnicas
+Spring Boot pela maturidade e produtividade.
+Lombok para reduzir boilerplate.
+Swagger/OpenAPI para documentação viva da API.
+Versionamento por URI (mais simples para clientes mobile).
+Banco em memória H2 para simplicidade em desenvolvimento e testes.
+Testes de carga realizados (1000 votos).
+Facade fake para integração externa simulada (validação de CPF).
+
+Considerações finais
+A aplicação está estável, testada e atende todos os requisitos do desafio, incluindo os bônus.
+Qualquer dúvida ou sugestão, estou à disposição!
