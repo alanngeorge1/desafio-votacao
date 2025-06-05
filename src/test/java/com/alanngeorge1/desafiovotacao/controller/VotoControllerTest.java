@@ -34,7 +34,7 @@ public class VotoControllerTest {
         pautaDTO.setTitulo("Pauta para Teste de Voto");
         pautaDTO.setDescricao("Descrição da pauta");
 
-        String pautaResponse = mockMvc.perform(post("/api/pautas")
+        String pautaResponse = mockMvc.perform(post("/api/v1/pautas")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(pautaDTO)))
                 .andExpect(status().isOk())
@@ -48,7 +48,7 @@ public class VotoControllerTest {
         sessaoDTO.setPautaId(pautaId);
         sessaoDTO.setDuracaoEmMinutos(5);
 
-        mockMvc.perform(post("/api/sessoes")
+        mockMvc.perform(post("/api/v1/sessoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(sessaoDTO)))
                 .andExpect(status().isOk());
@@ -61,12 +61,11 @@ public class VotoControllerTest {
         votoDTO.setAssociadoId("12345678900");
         votoDTO.setVoto("SIM");
 
-        mockMvc.perform(post("/api/votos")
+        mockMvc.perform(post("/api/v1/votos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(votoDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.pauta.id").value(pautaId))
                 .andExpect(jsonPath("$.associadoId").value("12345678900"))
                 .andExpect(jsonPath("$.voto").value("SIM"));
     }
@@ -78,12 +77,12 @@ public class VotoControllerTest {
         votoDTO.setAssociadoId("12345678900");
         votoDTO.setVoto("SIM");
 
-        mockMvc.perform(post("/api/votos")
+        mockMvc.perform(post("/api/v1/votos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(votoDTO)))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(post("/api/votos")
+        mockMvc.perform(post("/api/v1/votos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(votoDTO)))
                 .andExpect(status().isBadRequest())

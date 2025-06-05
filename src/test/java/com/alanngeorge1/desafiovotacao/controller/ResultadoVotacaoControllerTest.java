@@ -29,12 +29,12 @@ public class ResultadoVotacaoControllerTest {
 
     @BeforeEach
     public void setup() throws Exception {
-        // Cria uma pauta
+
         PautaDTO pautaDTO = new PautaDTO();
         pautaDTO.setTitulo("Pauta para Teste de Resultado");
         pautaDTO.setDescricao("Descrição da pauta");
 
-        String pautaResponse = mockMvc.perform(post("/api/pautas")
+        String pautaResponse = mockMvc.perform(post("/api/v1/pautas")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(pautaDTO)))
                 .andExpect(status().isOk())
@@ -48,7 +48,7 @@ public class ResultadoVotacaoControllerTest {
         sessaoDTO.setPautaId(pautaId);
         sessaoDTO.setDuracaoEmMinutos(5);
 
-        mockMvc.perform(post("/api/sessoes")
+        mockMvc.perform(post("/api/v1/sessoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(sessaoDTO)))
                 .andExpect(status().isOk());
@@ -58,18 +58,17 @@ public class ResultadoVotacaoControllerTest {
         votoSim.setAssociadoId("11111111111");
         votoSim.setVoto("SIM");
 
-        mockMvc.perform(post("/api/votos")
+        mockMvc.perform(post("/api/v1/votos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(votoSim)))
                 .andExpect(status().isOk());
 
-        // Voto NAO
         VotoDTO votoNao = new VotoDTO();
         votoNao.setPautaId(pautaId);
         votoNao.setAssociadoId("22222222222");
         votoNao.setVoto("NAO");
 
-        mockMvc.perform(post("/api/votos")
+        mockMvc.perform(post("/api/v1/votos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(votoNao)))
                 .andExpect(status().isOk());
@@ -77,7 +76,7 @@ public class ResultadoVotacaoControllerTest {
 
     @Test
     public void testResultadoVotacao() throws Exception {
-        mockMvc.perform(get("/api/pautas/" + pautaId + "/resultado"))
+        mockMvc.perform(get("/api/v1/pautas/" + pautaId + "/resultado"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.pautaId").value(pautaId))
                 .andExpect(jsonPath("$.totalSim").value(1))

@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -30,15 +29,15 @@ public class SessaoVotacaoControllerTest {
 
 
     @BeforeEach
-    public void setup() throws  Exception {
+    public void setup() throws Exception {
 
         PautaDTO pautaDTO = new PautaDTO();
         pautaDTO.setTitulo("Pauta para Sessão Teste");
         pautaDTO.setTitulo("Descrição da pauta para sessão");
 
-        String response  = mockMvc.perform(post("/api/pautas")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(pautaDTO)))
+        String response = mockMvc.perform(post("/api/v1/pautas")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(pautaDTO)))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
@@ -54,9 +53,9 @@ public class SessaoVotacaoControllerTest {
         sessaoVotacaoDTO.setPautaId(pautaId);
         sessaoVotacaoDTO.setDuracaoEmMinutos(5);
 
-        mockMvc.perform(post("/api/sessoes")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(sessaoVotacaoDTO)))
+        mockMvc.perform(post("/api/v1/sessoes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(sessaoVotacaoDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.pauta.id").value(pautaId))
@@ -71,7 +70,7 @@ public class SessaoVotacaoControllerTest {
         sessaoDTO.setPautaId(99999L);  // ID inexistente
         sessaoDTO.setDuracaoEmMinutos(5);
 
-        mockMvc.perform(post("/api/sessoes")
+        mockMvc.perform(post("/api/v1/sessoes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(sessaoDTO)))
                 .andExpect(status().isNotFound())
